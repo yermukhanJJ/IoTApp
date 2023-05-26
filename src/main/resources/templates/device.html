@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>IoT Device</title>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Raleway, sans-serif;
+    }
+
+    body {
+        background: linear-gradient(90deg, #C7C5F4, #776BCC);
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f2f2f2;
+        padding: 10px 20px;
+    }
+
+    .nav-links {
+        display: flex;
+        justify-content: space-between;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-item {
+        margin-right: 20px;
+    }
+
+    .logout {
+        margin-left: auto;
+    }
+
+    .nav-item a {
+        color: #333;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .nav-item a:hover {
+        color: #007bff;
+    }
+
+    table {
+        border-collapse: collapse;
+        margin: 20px;
+        font-size: 1.2rem;
+        font-family: Arial, sans-serif;
+        width: 100%;
+        color: #444;
+    }
+
+    thead tr {
+        background-color: #d8d8d8;
+        border-bottom: 1px solid #bbbbbb;
+    }
+
+    thead th {
+        font-weight: bold;
+        padding: 10px;
+        text-align: left;
+    }
+
+    tbody tr {
+        background-color: #f5f5f5;
+        border-bottom: 1px solid #bbbbbb;
+    }
+
+    tbody td {
+        padding: 10px;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #e3e3e3;
+    }
+
+    tbody tr:hover {
+        background-color: #e8f5fd;
+    }
+
+    form {
+        background-color: #fff;
+        padding: 20px;
+        margin: 20px auto;
+        width: 400px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    input[type="text"], select {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        box-sizing: border-box;
+        background-color: #f8f8f8;
+        color: #333;
+    }
+
+    input[type="submit"] {
+        background-color: #776BCC;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #5B4BA7;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #5B4BA7;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        box-sizing: border-box;
+        background-color: #f8f8f8;
+        color: #333;
+    }
+
+</style>
+<body>
+<div>
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li class="nav-item"><a href="/profile">Profile</a></li>
+            <li class="nav-item"><a href="/welcome">Main</a></li>
+            <li class="nav-item"><a href="/vehicle">My Vehicle</a></li>
+            <li class="nav-item"><a href="/vehicle/add">Add Vehicle</a></li>
+            <li class="nav-item"><a href="/devices">IoT Devices</a></li>
+        </ul>
+        <ul class="nav-links logout">
+            <li class="nav-item"><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+<!--    <form th:action="@{/device}" method="post">-->
+<!--        <div th:each="device : ${devices}">-->
+<!--            <label>-->
+<!--                <input type="checkbox" name="selectedDeviceNames" th:value="${device.title}" required/>-->
+<!--                <span th:text="${device.title}"></span>-->
+<!--                <label for="vehicleType">Тип автомобиля:</label>-->
+<!--                <select class="form-control" id="vehicleType" name="vehicleType" required>-->
+<!--                    <option value="">&#45;&#45;Выберите автомобиля&#45;&#45;</option>-->
+<!--                    <option th:each="vehicle : ${vehicles}" th:value="${vehicle.title}" th:text="${vehicle.title}"></option>-->
+<!--                </select>-->
+<!--            </label>-->
+<!--        </div>-->
+
+<!--        <button type="submit">Add Devices</button>-->
+<!--    </form>-->
+    <form action="#" th:action="@{/device}" th:object="${form}" method="post">
+        <label for="vehicleType">Выберите автомобиль:</label>
+        <select id="vehicleType" name="vehicleType" th:field="*{vehicleType}" required>
+            <option value="">--Выберите автомобиль--</option>
+            <option th:each="vehicle : ${vehicles}" th:value="${vehicle.title}" th:text="${vehicle.title}"></option>
+        </select>
+        <label>Выберите девайсы:</label>
+        <div th:each="device : ${devices}">
+            <label>
+                <input type="checkbox" th:field="*{selectedDeviceNames}" th:value="${device.title}" th:text="${device.title}" required />
+            </label>
+        </div>
+        <button type="submit">Добавить устройства</button>
+    </form>
+
+</div>
+</body>
+</html>

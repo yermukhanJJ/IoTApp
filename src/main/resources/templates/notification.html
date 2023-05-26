@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Notifications</title>
+</head>
+<body onload="subscribe()">
+<h1>Notifications</h1>
+<ul id="notifications"></ul>
+<script th:inline="javascript">
+  function subscribe() {
+    const evtSource = new EventSource('/subscribe');
+    evtSource.addEventListener('notification', function(event) {
+      const notifications = document.getElementById('notifications');
+      const li = document.createElement('li');
+      li.innerText = event.data;
+      notifications.appendChild(li);
+    });
+  }
+</script>
+</body>
+</html>
